@@ -1,7 +1,40 @@
+<!doctype html>
 <html>
-<head>
-</head>
-<body>
-<h1>Hellow</h1>
-</body>
+	<head>
+		<title>NBA Predictor</title>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8">
+		
+		<!-- JQuery -->
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+		
+		<!-- Patternfly CSS -->
+		<!-- <link rel="stylesheet", href="{{url_for("static", filename="node_modules/patternfly/dist/css/patternfly.min.css")}}", type="text/css"/> -->
+		<!-- <link rel="stylesheet", href="{{url_for("static", filename="node_modules/patternfly/dist/css/patternfly-additions.min.css")}}", type="text/css"/> -->
+		
+		<!-- Patternfly JS		 -->
+		
+		<!-- Bootstrap JS -->
+		<script src="{{url_for("static", filename="node_modules/patternfly/node_modules/bootstrap/dist/js/bootstrap.min.js")}}"></script>
+
+		<!-- C3, D3 - Charting Libraries -->
+		<script src="{{url_for("static", filename="node_modules/patternfly/node_modules/c3/c3.min.js")}}"></script>
+		<script src="{{url_for("static", filename="node_modules/patternfly/node_modules/d3/d3.min.js")}}"></script>
+		
+		<!-- My scripts -->
+		<script type="text/javascript" src="{{url_for("static", filename="js/setup.js")}}"></script>
+		<script type="text/javascript">
+			var data = {{data|safe}};
+			var clocks = data["clock"];
+			var awayTeams = data["awayTeams"];
+			var homeTeams = data["homeTeams"];
+			var awayScores = data["awayScores"];
+			var homeScores = data["homeScores"];
+		</script>
+	</head>
+	<body>
+		<div id="current-games">
+		</div>
+	</body>
 </html>

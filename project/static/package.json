@@ -1,0 +1,14 @@
+{
+  "name": "predictor",
+  "version": "1.0.0",
+  "description": "Real time NBA in-game win probabilities",
+  "main": "routes.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "patternfly": "^3.45.0"
+  }
+}

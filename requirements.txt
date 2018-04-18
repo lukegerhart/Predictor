@@ -1,2 +1,5 @@
 flask
+flask-restful
 sklearn
+lxml
+requests
