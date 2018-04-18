@@ -25,7 +25,7 @@ def time_to_seconds(clocks):
 		seconds.append(secondsremaining)
 	return seconds
 		
-def scrape(url='https://www.si.com/nba/scoreboard'):
+def scrape(url='https://www.si.com/nba/scoreboard', away=None, home=None):
 	tree = html.fromstring(requests.get(url).text)
 	# initializing variables
 	awayTeamsCityProcessed = []
@@ -68,7 +68,11 @@ def scrape(url='https://www.si.com/nba/scoreboard'):
 		print(homeScores)
 
 	gameStatus = list(filter(None, gameStatus))		# remove empty strings from list
-	
+	if home and away:
+		if away in awayTeamsCityProcessed:
+			i = awayTeamsCityProcessed.index(away)
+			return {'clock': gameStatus[i], 'awayTeams': awayTeamsCityProcessed[i], 'awayScores': awayScores[i], 'homeTeams': homeTeamsCityProcessed[i], 'homeScores': homeScores[i]}
+		
 	return {'clock': gameStatus, 'awayTeams': awayTeamsCityProcessed, 'awayScores': awayScores, 'homeTeams': homeTeamsCityProcessed, 'homeScores': homeScores}#time_to_seconds(gameStatus)
 if __name__ == '__main__':
 	scrape()

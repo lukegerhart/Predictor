@@ -1,5 +1,7 @@
 flask
 flask-restful
 sklearn
+numpy
+scipy
 lxml
 requests
