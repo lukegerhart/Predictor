@@ -2,7 +2,7 @@ $(document).ready( function() {
 	var numcurrentgames = clocks.length;
 	console.log(numcurrentgames);
 	if (numcurrentgames == 0) {
-		$("#current-games").append($("<p>"),text("There are no games going on right now"));
+		$("#current-games").append($("<p>").text("There are no games going on right now"));
 	} else {
 		var i;
 		for (i = 0; i < numcurrentgames; i++) {
