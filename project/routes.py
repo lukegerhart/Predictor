@@ -8,11 +8,32 @@ from scraper import scrape, time_to_seconds
 app = Flask(__name__)
 api = Api(app)
 
-@app.route('/')
-def default():
+def get_data():
 	data = scrape()
 	seconds = time_to_seconds(data['clock'])
-	#data['clock'] = seconds
+	data['seconds'] = seconds
+	return data
+	
+	# Use this for when there are no live games
+	# seconds = time_to_seconds(['4th | 8:15', '3rd | 4:20'])
+	# return {'clock':['4th | 8:15', '3rd | 4:20'], 'awayTeams':['MIA', 'MIN'], 'awayScores':[50, 89], 'homeTeams': ['PHI', 'HOU'], 'homeScores':[90, 70], 'games':2, 'seconds':seconds}
+
+def calculate_winprob(data):
+
+	seconds = data['seconds']
+	test_data = []
+	for i in range(len(seconds)):
+		test_data.append([data['awayScores'][i], data['homeScores'][i], seconds[i]])
+	td = numpy.array(test_data).astype(float)
+	td = td.reshape(len(seconds), -1)
+	logisticRegr = joblib.load('model.pkl')
+	proba = logisticRegr.predict_proba(td)
+	return [prob[1] for prob in proba]
+	
+@app.route('/')
+def default():
+	data = get_data()
+	
 	return render_template('index.html', data=data)
 	
 game_parser = reqparse.RequestParser()
@@ -26,15 +47,16 @@ class WinProb(Resource):
 		away = args['away']
 		home = args['home']
 		data = scrape(away=away, home=home)
-		seconds = time_to_seconds(data['clock'])
-		test_data = []
-		test_data.append(data['awayScores'])
-		test_data.append(data['homeScores'])
-		test_data.append(seconds)
-		td = numpy.array(test_data).astype(float)
-		td = td.reshape(1, -1)
-		logisticRegr = joblib.load('model.pkl')
-		proba = logisticRegr.predict_proba(td)
-		return jsonify(proba[0][1])
+		proba = calculate_winprob(data)
+		return jsonify({'prob':proba})
+
+class GameStates(Resource):
+	
+	def get(self):
+		data = get_data()
+		proba = calculate_winprob(data)
+		data['probs'] = proba
+		return jsonify(data)
 		
 api.add_resource(WinProb, '/winprob')
+api.add_resource(GameStates, '/games')
