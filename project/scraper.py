@@ -62,10 +62,8 @@ def scrape(url='https://www.si.com/nba/scoreboard', away=None, home=None):
 		
 		awayScoresRaw = tree.xpath("//span[@class='status-active uppercase']/../../../div[2]/div/div[1]/div/div[1]/div[3]/div/text()")
 		awayScores = clean_data(awayScoresRaw, awayScores)
-		print(awayScores)
 		homeScoresRaw = tree.xpath("//span[@class='status-active uppercase']/../../../div[2]/div/div[1]/div/div[3]/div[3]/div/text()")
 		homeScores = clean_data(homeScoresRaw, homeScores)
-		print(homeScores)
 
 	gameStatus = list(filter(None, gameStatus))		# remove empty strings from list
 	if home and away:
@@ -73,6 +71,6 @@ def scrape(url='https://www.si.com/nba/scoreboard', away=None, home=None):
 			i = awayTeamsCityProcessed.index(away)
 			return {'clock': gameStatus[i], 'awayTeams': awayTeamsCityProcessed[i], 'awayScores': awayScores[i], 'homeTeams': homeTeamsCityProcessed[i], 'homeScores': homeScores[i]}
 		
-	return {'clock': gameStatus, 'awayTeams': awayTeamsCityProcessed, 'awayScores': awayScores, 'homeTeams': homeTeamsCityProcessed, 'homeScores': homeScores}#time_to_seconds(gameStatus)
+	return {'clock': gameStatus, 'awayTeams': awayTeamsCityProcessed, 'awayScores': awayScores, 'homeTeams': homeTeamsCityProcessed, 'homeScores': homeScores, 'games':len(gameStatus)}#time_to_seconds(gameStatus)
 if __name__ == '__main__':
 	scrape()
