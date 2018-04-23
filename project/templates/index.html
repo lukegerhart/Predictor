@@ -31,10 +31,12 @@
 			var homeTeams = data["homeTeams"];
 			var awayScores = data["awayScores"];
 			var homeScores = data["homeScores"];
+			var probs = data["probs"];
 			var numcurrentgames = data["games"]; 
 			games = []
 			for (var index = 0; index < clocks.length; index++) {
-				var newgame = {clock:[clocks[index]], awayTeam:awayTeams[index], homeTeam:homeTeams[index], awayScore:[awayScores[index]], homeScore:[homeScores[index]]};
+				var newgame = {clock:[clocks[index]], awayTeam:awayTeams[index], homeTeam:homeTeams[index], 
+					awayScore:[awayScores[index]], homeScore:[homeScores[index]], homeWinprob:[probs[index]]};
 				games.push(newgame);
 			}
 			console.log(games);

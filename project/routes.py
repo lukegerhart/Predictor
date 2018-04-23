@@ -9,14 +9,14 @@ app = Flask(__name__)
 api = Api(app)
 
 def get_data():
-	data = scrape()
-	seconds = time_to_seconds(data['clock'])
-	data['seconds'] = seconds
-	return data
+	# data = scrape()
+	# seconds = time_to_seconds(data['clock'])
+	# data['seconds'] = seconds
+	# return data
 	
 	# Use this for when there are no live games
-	# seconds = time_to_seconds(['4th | 8:15', '3rd | 4:20'])
-	# return {'clock':['4th | 8:15', '3rd | 4:20'], 'awayTeams':['MIA', 'MIN'], 'awayScores':[50, 89], 'homeTeams': ['PHI', 'HOU'], 'homeScores':[90, 70], 'games':2, 'seconds':seconds}
+	seconds = time_to_seconds(['4th | 8:15', '3rd | 4:20'])
+	return {'clock':['4th | 8:15', '3rd | 4:20'], 'awayTeams':['MIA', 'MIN'], 'awayScores':[50, 89], 'homeTeams': ['PHI', 'HOU'], 'homeScores':[90, 70], 'games':2, 'seconds':seconds}
 
 def calculate_winprob(data):
 
@@ -33,7 +33,8 @@ def calculate_winprob(data):
 @app.route('/')
 def default():
 	data = get_data()
-	
+	proba = calculate_winprob(data)
+	data['probs'] = proba
 	return render_template('index.html', data=data)
 	
 game_parser = reqparse.RequestParser()

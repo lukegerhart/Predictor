@@ -30,6 +30,7 @@ function append_game_history(response) {
 				games[k]["clock"].push(response["clock"][i]);
 				games[k]["awayScore"].push(response["awayScores"][i]);
 				games[k]["homeScore"].push(response["homeScores"][i]);
+				games[k]["homeWinprob"].push(response["probs"][i]);
 			}
 		}
 	}
